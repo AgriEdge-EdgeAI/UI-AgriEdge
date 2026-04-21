@@ -4,8 +4,8 @@ import { Opacity as MoistureIcon, Thermostat as TempIcon, PowerSettingsNew as Pu
 import SensorChart from './SensorChart';
 
 const Dashboard: React.FC = () => {
-  const [moisture, setMoisture] = useState(42);
-  const [temperature, setTemperature] = useState(24);
+  const [moisture] = useState(42);  // Removed setMoisture (not needed)
+  const [temperature] = useState(24); // Removed setTemperature (not needed)
   const [pumpOn, setPumpOn] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '' });
 
@@ -21,7 +21,6 @@ const Dashboard: React.FC = () => {
       </Typography>
       
       <Grid container spacing={3}>
-        {/* Soil Moisture Card */}
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
@@ -37,7 +36,6 @@ const Dashboard: React.FC = () => {
           </Card>
         </Grid>
         
-        {/* Temperature Card */}
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
@@ -53,12 +51,10 @@ const Dashboard: React.FC = () => {
           </Card>
         </Grid>
         
-        {/* Chart Section - Full Width */}
         <Grid item xs={12}>
           <SensorChart />
         </Grid>
         
-        {/* Pump Control Card */}
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
@@ -72,20 +68,10 @@ const Dashboard: React.FC = () => {
                 </strong>
               </Typography>
               <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
-                <Button 
-                  variant="contained" 
-                  color="success" 
-                  onClick={() => handlePump(true)} 
-                  disabled={pumpOn}
-                >
+                <Button variant="contained" color="success" onClick={() => handlePump(true)} disabled={pumpOn}>
                   Turn ON
                 </Button>
-                <Button 
-                  variant="contained" 
-                  color="error" 
-                  onClick={() => handlePump(false)} 
-                  disabled={!pumpOn}
-                >
+                <Button variant="contained" color="error" onClick={() => handlePump(false)} disabled={!pumpOn}>
                   Turn OFF
                 </Button>
               </Box>
@@ -93,7 +79,6 @@ const Dashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Alerts Card */}
         <Grid item xs={12} md={6}>
           <Card sx={{ bgcolor: '#fff8e1' }}>
             <CardContent>
@@ -107,7 +92,6 @@ const Dashboard: React.FC = () => {
         </Grid>
       </Grid>
       
-      {/* Edge AI Status Footer */}
       <Paper sx={{ mt: 3, p: 2, textAlign: 'center', bgcolor: '#f5f5f5' }}>
         <Typography variant="body2" color="text.secondary">
           🤖 Edge AI running on ESP32 | TensorFlow Lite Micro
