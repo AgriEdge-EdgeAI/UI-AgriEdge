@@ -5,6 +5,7 @@ import AgricultureIcon from '@mui/icons-material/Agriculture';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SensorsIcon from '@mui/icons-material/Sensors';
 import HistoryIcon from '@mui/icons-material/History';
+import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 
@@ -19,7 +20,6 @@ const Navbar: React.FC = () => {
   const [userName, setUserName] = useState('Farmer');
   const [userInitial, setUserInitial] = useState('F');
 
-  // Check login status on mount and when localStorage changes
   useEffect(() => {
     const checkLogin = () => {
       const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -30,8 +30,6 @@ const Navbar: React.FC = () => {
     };
     
     checkLogin();
-    
-    // Listen for storage changes (in case of login from another tab)
     window.addEventListener('storage', checkLogin);
     return () => window.removeEventListener('storage', checkLogin);
   }, []);
@@ -56,21 +54,13 @@ const Navbar: React.FC = () => {
         <Toolbar disableGutters sx={{ gap: 2, minHeight: { xs: 60, md: 68 } }}>
           {/* Logo */}
           <Box 
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 1, 
-              cursor: 'pointer',
-              '&:hover': { opacity: 0.9 }
-            }} 
+            sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', '&:hover': { opacity: 0.9 } }} 
             onClick={() => navigate(isLoggedIn ? '/dashboard' : '/')}
           >
             <Box sx={{ 
               width: 36, height: 36, borderRadius: '10px', 
               background: `linear-gradient(135deg, ${PRIMARY_GREEN}, ${PRIMARY_GREEN_LIGHT})`, 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center'
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
               <AgricultureIcon sx={{ fontSize: 20, color: '#fff' }} />
             </Box>
@@ -82,39 +72,21 @@ const Navbar: React.FC = () => {
           {/* Navigation Links */}
           {isLoggedIn && (
             <Box sx={{ flexGrow: 1, display: 'flex', gap: 1, ml: 4 }}>
-              <Button 
-                onClick={() => navigate('/dashboard')} 
-                startIcon={<DashboardIcon />}
-                sx={{ 
-                  color: isActive('/dashboard') ? PRIMARY_GREEN : '#475569',
-                  fontWeight: isActive('/dashboard') ? 700 : 500,
-                  '&:hover': { color: PRIMARY_GREEN, backgroundColor: `rgba(13,107,58,0.04)` }
-                }}
-              >
-                Dashboard
-              </Button>
-              <Button 
-                onClick={() => navigate('/live-feed')} 
-                startIcon={<SensorsIcon />}
-                sx={{ 
-                  color: isActive('/live-feed') ? PRIMARY_GREEN : '#475569',
-                  fontWeight: isActive('/live-feed') ? 700 : 500,
-                  '&:hover': { color: PRIMARY_GREEN, backgroundColor: `rgba(13,107,58,0.04)` }
-                }}
-              >
-                Live Feed
-              </Button>
-              <Button 
-                onClick={() => navigate('/history')} 
-                startIcon={<HistoryIcon />}
-                sx={{ 
-                  color: isActive('/history') ? PRIMARY_GREEN : '#475569',
-                  fontWeight: isActive('/history') ? 700 : 500,
-                  '&:hover': { color: PRIMARY_GREEN, backgroundColor: `rgba(13,107,58,0.04)` }
-                }}
-              >
-                History
-              </Button>
+              <Button onClick={() => navigate('/dashboard')} startIcon={<DashboardIcon />} sx={{ 
+                color: isActive('/dashboard') ? PRIMARY_GREEN : '#475569',
+                fontWeight: isActive('/dashboard') ? 700 : 500,
+                '&:hover': { color: PRIMARY_GREEN, backgroundColor: `rgba(13,107,58,0.04)` }
+              }}>Dashboard</Button>
+              <Button onClick={() => navigate('/live-feed')} startIcon={<SensorsIcon />} sx={{ 
+                color: isActive('/live-feed') ? PRIMARY_GREEN : '#475569',
+                fontWeight: isActive('/live-feed') ? 700 : 500,
+                '&:hover': { color: PRIMARY_GREEN, backgroundColor: `rgba(13,107,58,0.04)` }
+              }}>Live Feed</Button>
+              <Button onClick={() => navigate('/history')} startIcon={<HistoryIcon />} sx={{ 
+                color: isActive('/history') ? PRIMARY_GREEN : '#475569',
+                fontWeight: isActive('/history') ? 700 : 500,
+                '&:hover': { color: PRIMARY_GREEN, backgroundColor: `rgba(13,107,58,0.04)` }
+              }}>History</Button>
             </Box>
           )}
 
@@ -122,16 +94,7 @@ const Navbar: React.FC = () => {
           <Box sx={{ ml: 'auto' }}>
             {isLoggedIn ? (
               <>
-                <Box 
-                  sx={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: 1.5, 
-                    cursor: 'pointer',
-                    '&:hover': { opacity: 0.8 }
-                  }} 
-                  onClick={handleMenu}
-                >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'pointer', '&:hover': { opacity: 0.8 } }} onClick={handleMenu}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
                     <span className="pulse-dot" style={{ width: 6, height: 6 }} />
                     <Typography variant="caption" sx={{ color: PRIMARY_GREEN, fontWeight: 600 }}>LIVE</Typography>
@@ -140,14 +103,12 @@ const Navbar: React.FC = () => {
                     {userInitial}
                   </Avatar>
                 </Box>
-                <Menu 
-                  anchorEl={anchorEl} 
-                  open={Boolean(anchorEl)} 
-                  onClose={handleClose}
-                  PaperProps={{ sx: { mt: 1.5, minWidth: 180, borderRadius: 2 } }}
-                >
+                <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} PaperProps={{ sx: { mt: 1.5, minWidth: 180, borderRadius: 2 } }}>
                   <MenuItem onClick={() => { navigate('/dashboard'); handleClose(); }}>
                     <PersonIcon sx={{ mr: 1, fontSize: 20 }} /> Dashboard
+                  </MenuItem>
+                  <MenuItem onClick={() => { navigate('/settings'); handleClose(); }}>
+                    <SettingsIcon sx={{ mr: 1, fontSize: 20 }} /> Settings
                   </MenuItem>
                   <MenuItem onClick={handleLogout} sx={{ color: '#ef4444' }}>
                     <LogoutIcon sx={{ mr: 1, fontSize: 20 }} /> Logout
@@ -156,19 +117,8 @@ const Navbar: React.FC = () => {
               </>
             ) : (
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Button 
-                  onClick={() => navigate('/login')} 
-                  sx={{ color: '#475569', '&:hover': { color: PRIMARY_GREEN } }}
-                >
-                  Login
-                </Button>
-                <Button 
-                  variant="contained" 
-                  onClick={() => navigate('/register')}
-                  sx={{ background: `linear-gradient(135deg, ${PRIMARY_GREEN}, ${PRIMARY_GREEN_LIGHT})` }}
-                >
-                  Get Started
-                </Button>
+                <Button onClick={() => navigate('/login')} sx={{ color: '#475569', '&:hover': { color: PRIMARY_GREEN } }}>Login</Button>
+                <Button variant="contained" onClick={() => navigate('/register')} sx={{ background: `linear-gradient(135deg, ${PRIMARY_GREEN}, ${PRIMARY_GREEN_LIGHT})` }}>Get Started</Button>
               </Box>
             )}
           </Box>
