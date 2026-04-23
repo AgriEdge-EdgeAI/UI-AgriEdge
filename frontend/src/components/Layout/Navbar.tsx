@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, Container, Avatar, Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, Container, Avatar, Menu, MenuItem, IconButton } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AgricultureIcon from '@mui/icons-material/Agriculture';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -18,38 +18,160 @@ const Navbar: React.FC = () => {
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ gap: 2 }}>
-          <Box display="flex" alignItems="center" gap={1} sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-            <Box sx={{ width: 34, height: 34, borderRadius: '10px', background: 'linear-gradient(135deg, #16c265 0%, #0d7a40 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Toolbar disableGutters sx={{ gap: 2, minHeight: { xs: 60, md: 68 } }}>
+          {/* Logo with hover effect */}
+          <Box 
+            display="flex" 
+            alignItems="center" 
+            gap={1} 
+            sx={{ 
+              cursor: 'pointer', 
+              mr: 4,
+              transition: 'transform 0.2s ease',
+              '&:hover': { transform: 'scale(1.02)' }
+            }} 
+            onClick={() => navigate('/')}
+          >
+            <Box sx={{ 
+              width: 34, height: 34, borderRadius: '10px', 
+              background: 'linear-gradient(135deg, #1b8c2e, #2eae40)', 
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              '&:hover': { boxShadow: '0 4px 12px rgba(27,140,46,0.3)' }
+            }}>
               <AgricultureIcon sx={{ fontSize: 18, color: '#fff' }} />
             </Box>
-            <Typography variant="h6" sx={{ fontFamily: '"Syne", sans-serif', fontWeight: 800, background: 'linear-gradient(135deg, #f0fdf4, #16c265)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AgriEdge</Typography>
+            <Typography variant="h6" sx={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: '1.2rem', color: '#111111' }}>
+              AgriEdge
+            </Typography>
           </Box>
 
+          {/* Nav Links with hover effects */}
           {isLoggedIn && (
             <Box sx={{ flexGrow: 1, display: 'flex', gap: 0.5 }}>
-              <Button onClick={() => navigate('/dashboard')} startIcon={<DashboardIcon />} sx={{ color: isActive('/dashboard') ? '#16c265' : '#6b7f74', background: isActive('/dashboard') ? 'rgba(22,194,101,0.08)' : 'transparent' }}>Dashboard</Button>
-              <Button onClick={() => navigate('/live-feed')} startIcon={<SensorsIcon />} sx={{ color: isActive('/live-feed') ? '#16c265' : '#6b7f74', background: isActive('/live-feed') ? 'rgba(22,194,101,0.08)' : 'transparent' }}>Live Feed</Button>
-              <Button onClick={() => navigate('/history')} startIcon={<HistoryIcon />} sx={{ color: isActive('/history') ? '#16c265' : '#6b7f74', background: isActive('/history') ? 'rgba(22,194,101,0.08)' : 'transparent' }}>History</Button>
+              <Button 
+                onClick={() => navigate('/dashboard')} 
+                startIcon={<DashboardIcon />} 
+                sx={{ 
+                  color: isActive('/dashboard') ? '#1b8c2e' : '#444444', 
+                  background: isActive('/dashboard') ? 'rgba(27,140,46,0.08)' : 'transparent', 
+                  borderRadius: '10px', 
+                  px: 2, py: 0.8,
+                  transition: 'all 0.2s ease',
+                  '&:hover': { 
+                    color: '#1b8c2e', 
+                    background: 'rgba(27,140,46,0.06)',
+                    transform: 'translateY(-2px)'
+                  } 
+                }}
+              >
+                Dashboard
+              </Button>
+              <Button 
+                onClick={() => navigate('/live-feed')} 
+                startIcon={<SensorsIcon />} 
+                sx={{ 
+                  color: isActive('/live-feed') ? '#1b8c2e' : '#444444', 
+                  background: isActive('/live-feed') ? 'rgba(27,140,46,0.08)' : 'transparent', 
+                  borderRadius: '10px', 
+                  px: 2, py: 0.8,
+                  transition: 'all 0.2s ease',
+                  '&:hover': { 
+                    color: '#1b8c2e', 
+                    background: 'rgba(27,140,46,0.06)',
+                    transform: 'translateY(-2px)'
+                  } 
+                }}
+              >
+                Live Feed
+              </Button>
+              <Button 
+                onClick={() => navigate('/history')} 
+                startIcon={<HistoryIcon />} 
+                sx={{ 
+                  color: isActive('/history') ? '#1b8c2e' : '#444444', 
+                  background: isActive('/history') ? 'rgba(27,140,46,0.08)' : 'transparent', 
+                  borderRadius: '10px', 
+                  px: 2, py: 0.8,
+                  transition: 'all 0.2s ease',
+                  '&:hover': { 
+                    color: '#1b8c2e', 
+                    background: 'rgba(27,140,46,0.06)',
+                    transform: 'translateY(-2px)'
+                  } 
+                }}
+              >
+                History
+              </Button>
             </Box>
           )}
 
+          {/* Auth Area */}
           <Box sx={{ ml: 'auto' }}>
             {isLoggedIn ? (
               <>
-                <Box display="flex" alignItems="center" gap={1} sx={{ cursor: 'pointer' }} onClick={(e) => setAnchorEl(e.currentTarget)}>
-                  <span className="pulse-dot" style={{ width: 6, height: 6 }} />
-                  <Avatar sx={{ width: 32, height: 32, bgcolor: 'rgba(22,194,101,0.2)', color: '#16c265' }}>{userName.charAt(0).toUpperCase()}</Avatar>
+                <Box 
+                  display="flex" 
+                  alignItems="center" 
+                  gap={1.5} 
+                  sx={{ 
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    '&:hover': { transform: 'translateY(-2px)' }
+                  }} 
+                  onClick={(e) => setAnchorEl(e.currentTarget)}
+                >
+                  <Box display="flex" alignItems="center" gap={0.8}>
+                    <span className="pulse-dot" style={{ width: 6, height: 6 }} />
+                    <Typography variant="caption" sx={{ color: '#1b8c2e', fontWeight: 600, fontSize: '0.72rem' }}>LIVE</Typography>
+                  </Box>
+                  <Avatar sx={{ 
+                    width: 32, height: 32, 
+                    bgcolor: '#1b8c2e', 
+                    color: '#fff',
+                    transition: 'all 0.2s ease',
+                    '&:hover': { transform: 'scale(1.05)' }
+                  }}>
+                    {userName.charAt(0).toUpperCase()}
+                  </Avatar>
                 </Box>
-                <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-                  <MenuItem onClick={() => navigate('/dashboard')}>Dashboard</MenuItem>
-                  <MenuItem onClick={() => { localStorage.clear(); navigate('/login'); }} sx={{ color: '#ef4444' }}>Logout</MenuItem>
+                <Menu 
+                  anchorEl={anchorEl} 
+                  open={Boolean(anchorEl)} 
+                  onClose={() => setAnchorEl(null)} 
+                  PaperProps={{ 
+                    sx: { 
+                      mt: 1.5, minWidth: 180, borderRadius: '14px',
+                      '& .MuiMenuItem-root': {
+                        transition: 'all 0.2s ease',
+                        '&:hover': { background: 'rgba(27,140,46,0.08)', transform: 'translateX(4px)' }
+                      }
+                    } 
+                  }}
+                >
+                  <MenuItem onClick={() => { navigate('/dashboard'); setAnchorEl(null); }}>Dashboard</MenuItem>
+                  <MenuItem onClick={() => { localStorage.clear(); navigate('/login'); }} sx={{ color: '#e53935' }}>Logout</MenuItem>
                 </Menu>
               </>
             ) : (
-              <Box display="flex" gap={1}>
-                <Button onClick={() => navigate('/login')}>Login</Button>
-                <Button variant="contained" onClick={() => navigate('/register')}>Get Started</Button>
+              <Box display="flex" gap={1.5}>
+                <Button 
+                  onClick={() => navigate('/login')} 
+                  sx={{ 
+                    color: '#444444',
+                    transition: 'all 0.2s ease',
+                    '&:hover': { color: '#1b8c2e', transform: 'translateY(-2px)' }
+                  }}
+                >
+                  Login
+                </Button>
+                <Button 
+                  variant="contained" 
+                  onClick={() => navigate('/register')}
+                  className="btn-shine"
+                >
+                  Get Started
+                </Button>
               </Box>
             )}
           </Box>
