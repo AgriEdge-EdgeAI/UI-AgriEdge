@@ -2,21 +2,15 @@ import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import Navbar from './Navbar';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
       <Container maxWidth="xl" sx={{ mt: 3, mb: 3, flex: 1 }}>
         {children}
       </Container>
-      <Box component="footer" sx={{ py: 3, textAlign: 'center', bgcolor: '#1a5e2a', color: 'white' }}>
-        <Typography variant="body2">
-          © 2026 AgriEdge - Edge AI Automatic Irrigation System
-        </Typography>
+      <Box component="footer" sx={{ py: 3, textAlign: 'center', borderTop: '1px solid rgba(22,194,101,0.08)', background: 'rgba(10,15,13,0.8)' }}>
+        <Typography variant="caption" sx={{ color: '#3d4f44' }}>© 2026 AgriEdge · Edge AI Automatic Irrigation System</Typography>
       </Box>
     </Box>
   );

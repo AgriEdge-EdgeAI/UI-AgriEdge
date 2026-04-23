@@ -10,10 +10,9 @@ import Dashboard from './pages/Dashboard';
 import LiveFeed from './pages/LiveFeed';
 import History from './pages/History';
 
-// Protected route wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  return isLoggedIn ? <>{children}</> : <Navigate to="/login" />;
+  return isLoggedIn ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 function App() {
@@ -26,15 +25,10 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute><Dashboard /></ProtectedRoute>
-            } />
-            <Route path="/live-feed" element={
-              <ProtectedRoute><LiveFeed /></ProtectedRoute>
-            } />
-            <Route path="/history" element={
-              <ProtectedRoute><History /></ProtectedRoute>
-            } />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/live-feed" element={<ProtectedRoute><LiveFeed /></ProtectedRoute>} />
+            <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Layout>
       </Router>
